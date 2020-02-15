@@ -1,3 +1,5 @@
+#ifndef DOORCONTROL_H
+#define DOORCONTROL_H
 #include "hardware.h"
 
 /**
@@ -11,3 +13,5 @@ void doorOpen(void);
  *
  */
 void doorClose(void);
+
+#endif

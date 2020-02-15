@@ -1,3 +1,6 @@
+#ifndef TIMERCONTROL_H
+#define TIMERCONTROL_H
+
 #include <time.h>
 
 /**
@@ -17,3 +20,5 @@ typedef struct {
  * @param milliSec how many milliseconds to count
 */
 Timer timerStartTimer(int milliSec);
+
+#endif
