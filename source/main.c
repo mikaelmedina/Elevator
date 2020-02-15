@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "hardware.h"
+#include "timerControl.h"
+#include "doorControl.h"
 
 static void clear_all_order_lights(){
     HardwareOrder order_types[3] = {
@@ -40,6 +42,25 @@ int main(){
     hardware_command_movement(HARDWARE_MOVEMENT_UP);
 
     while(1){
+        
+        // Example use of timer
+        {
+            int duration = 3000; // delay in milliseconds
+            Timer timer = timerStartTimer(duration);
+
+            doorOpen();
+            while(clock() < timer.timerDuration) {
+                // Do stuff when door is open
+            }
+            doorClose();
+        }
+
+
+
+
+
+
+
         if(hardware_read_stop_signal()){
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
             break;
