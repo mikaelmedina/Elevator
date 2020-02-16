@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @brief Library with door control.
+ * 
+*/
+
+
 #ifndef DOORCONTROL_H
 #define DOORCONTROL_H
 #include "hardware.h"

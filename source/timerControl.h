@@ -1,3 +1,9 @@
+/**
+ * @file
+ * @brief Library with timer utilities
+ * 
+*/
+
 #ifndef TIMERCONTROL_H
 #define TIMERCONTROL_H
 
