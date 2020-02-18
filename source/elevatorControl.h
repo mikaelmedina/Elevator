@@ -16,5 +16,12 @@
 int elevatorPollFloor(void);
 
 
+/**
+ * @brief Moves elevator down until it reaches a known floor
+ * 
+ * @return Integer value of what floor the elevator is at.
+*/
+int elevatorToKnownState(void);
+
 
 #endif

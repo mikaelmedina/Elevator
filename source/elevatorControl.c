@@ -8,3 +8,16 @@ int elevatorPollFloor(void) {
     }
     return 0;
 }
+
+int elevatorToKnownState(void) {
+    while(!elevatorPollFloor) {
+        hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+    }
+    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+
+    //
+    // Set state to standby 
+    //
+
+    return elevatorPollFloor();
+}
