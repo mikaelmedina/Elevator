@@ -36,11 +36,27 @@ int elevatorPollFloor(void);
 int elevatorToKnownState(void);
 
 /**
- * @brief Checks if the elevator has arrived at the wanted @p floor
- * @param floor The desired floor to check
+ * @brief This function handles every function that needs to be called
+ * when elevator arrives at the give @p floor.
+ * @param floor Floor the elevator has arrived at.
+*/
+void elevatorArrival(int floor);
+
+/**
+ * @brief Checks if the elevator has arrived at the wanted @p floor, and 
+ * stops it from moving if it has.
+ * @param floor The desired floor to check if the elevator has arrived at.
  * @return 1 if at the desired @p floor, 0 otherwise.
 */
 int elevatorArrivedAtFloor(int floor);
+
+/**
+ * @brief Commands the elevator to move up or down, depending on if @p floor
+ * is above or below current floor.
+ * 
+ * @param floor Desired floor to move towards.
+*/
+void elevatorMovement(int floor);
 
 /**
  * @brief Commands the elevator to execute a given order. 

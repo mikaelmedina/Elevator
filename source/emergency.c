@@ -23,5 +23,6 @@ int emergencyPollObstruction(void) {
         hardware_command_stop_light(1);
         return 1;
     }
+    hardware_command_stop_light(0);
     return 0;
 }
