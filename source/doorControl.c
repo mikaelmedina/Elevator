@@ -6,5 +6,7 @@ void doorOpen(void) {
 
 
 void doorClose(void) {
-    hardware_command_door_open(0);
+    if(!hardware_read_obstruction_signal()) {
+        hardware_command_door_open(0);
+    }
 }
