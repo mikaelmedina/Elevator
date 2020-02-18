@@ -7,6 +7,9 @@
 #ifndef ELEVATORCONTROL_H
 #define ELEVATORCONTROL_H
 #include "hardware.h"
+#include "emergency.h"
+#include "order.h"
+#include "timerControl.h"
 
 /**
  * @brief Polls the floor sensors and returns what floor the elevator is at.
@@ -22,6 +25,11 @@ int elevatorPollFloor(void);
  * @return Integer value of what floor the elevator is at.
 */
 int elevatorToKnownState(void);
+
+/**
+ * @brief The main loop that controls the elevator, polling everything.
+*/
+void elevatorMainLoop(void);
 
 
 #endif

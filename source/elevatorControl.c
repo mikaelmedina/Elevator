@@ -21,3 +21,14 @@ int elevatorToKnownState(void) {
 
     return elevatorPollFloor();
 }
+
+void elevatorMainLoop(void) {
+    if(emergencyPollStop() && elevatorPollFloor()) {
+        Timer timer = timerStartTimer(3000);
+        while(clock() < timer.timerDuration) {
+            orderPoll();
+        }
+        doorClose();
+    }
+    orderPoll();
+}
