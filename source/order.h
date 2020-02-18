@@ -8,19 +8,18 @@
 #define ORDER_H
 #include "hardware.h"
 
-typedef struct {
-    int floor; /** The destination of the order */
-    HardwareOrder orderType; /** Type of order */
-} Order;
+void orderPoll(void);
 
 /**
  * @brief 
  */
-void orderAdd(Order order);
+void orderAdd(int floor, HardwareOrder orderType);
 
 /**
  * @brief 
  */
 void orderClear(int floor);
+
+void orderClearAll(void);
 
 #endif
