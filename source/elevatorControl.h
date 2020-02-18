@@ -11,6 +11,15 @@
 #include "order.h"
 #include "timerControl.h"
 
+typedef enum {
+    ELEVATOR_GOING_UP,
+    ELEVATOR_GOING_DOWN,
+    ELEVATOR_STOPPED,
+    ELEVATOR_OPERATING,
+    ELEVATOR_STANDBY,
+    ELEVATOR_OBSTRUCTED
+} ElevatorState;
+
 /**
  * @brief Polls the floor sensors and returns what floor the elevator is at.
  * 
@@ -32,6 +41,12 @@ int elevatorToKnownState(void);
  * @return 1 if at the desired @p floor, 0 otherwise.
 */
 int elevatorArrivedAtFloor(int floor);
+
+/**
+ * @brief Commands the elevator to execute a given order. 
+ * I.E move up to floor 3.
+*/
+void elevatorExecuteOrder();
 
 /**
  * @brief The main loop that controls the elevator, polling everything.
