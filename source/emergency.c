@@ -16,5 +16,7 @@ int emergencyPollObstruction(void) {
     // && state is door open
     if(hardware_read_obstruction_signal()) {
         hardware_command_stop_light(1);
+        return 1;
     }
+    return 0;
 }
