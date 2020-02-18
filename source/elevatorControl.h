@@ -27,6 +27,13 @@ int elevatorPollFloor(void);
 int elevatorToKnownState(void);
 
 /**
+ * @brief Checks if the elevator has arrived at the wanted @p floor
+ * @param floor The desired floor to check
+ * @return 1 if at the desired @p floor, 0 otherwise.
+*/
+int elevatorArrivedAtFloor(int floor);
+
+/**
  * @brief The main loop that controls the elevator, polling everything.
 */
 void elevatorMainLoop(void);

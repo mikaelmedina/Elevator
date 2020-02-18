@@ -22,6 +22,13 @@ int elevatorToKnownState(void) {
     return elevatorPollFloor();
 }
 
+int elevatorArrivedAtFloor(int floor) {
+    if(hardware_read_floor_sensor(floor)) {
+        return 1;
+    }
+    return 0;
+}
+
 void elevatorMainLoop(void) {
     if(emergencyPollStop() && elevatorPollFloor()) {
         Timer timer = timerStartTimer(3000);
@@ -31,4 +38,7 @@ void elevatorMainLoop(void) {
         doorClose();
     }
     orderPoll();
+
+    // Change 1 to current order being executed
+    elevatorArrivedAtFloor(1);
 }
