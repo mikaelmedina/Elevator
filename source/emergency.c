@@ -4,8 +4,12 @@ int emergencyPollStop(void) {
     if(hardware_read_stop_signal()) {
         hardware_command_stop_light(1);
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        // Remove all orders from the queue
-        while(hardware_read_stop_signal()) {}
+        orderClearAll();
+        while(hardware_read_stop_signal()) {
+            if(elevatorPollFloor()) {
+                openDoor();
+            }
+        }
         return 1;
     }
     hardware_command_stop_light(0);
