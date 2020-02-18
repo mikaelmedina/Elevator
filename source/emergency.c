@@ -10,6 +10,7 @@ int emergencyPollStop(void) {
                 openDoor();
             }
         }
+        hardware_command_stop_light(0);
         return 1;
     }
     hardware_command_stop_light(0);
