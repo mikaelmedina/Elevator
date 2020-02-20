@@ -20,6 +20,11 @@ typedef enum {
     ELEVATOR_OBSTRUCTED
 } ElevatorState;
 
+/* Brukes i orderAddToQueue, update hvis bedre løsning finnes. Må muligens legges til i c-fila. */
+extern int elevatorCurrentFloor;
+extern int elevatorNextFloor;
+extern ElevatorState elevatorState;
+
 /**
  * @brief Polls the floor sensors and returns what floor the elevator is at.
  * 
