@@ -92,7 +92,7 @@ void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
     emergencyPollStop(pQueue, pElevator);
     doorClose();
 
-    if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
+    if(elevatorArrivedAtFloor(pElevator->nextFloor) && pElevator->state != ELEVATOR_STANDBY) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);
     }
 }

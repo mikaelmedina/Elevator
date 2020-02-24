@@ -22,6 +22,7 @@ int main(){
         fprintf(stderr, "Unable to initialize hardware\n");
         exit(1);
     }
+    signal(SIGINT, sigint_handler);
    
 
 
@@ -36,7 +37,6 @@ int main(){
 
     while(1){
         elevatorMainLoop(floorQueue, &elevator);
-        signal(SIGINT, sigint_handler);
     }
 
     return 0;
