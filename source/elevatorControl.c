@@ -24,22 +24,25 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
     orderClear(floor, pQueue, pElevator);
     
     pElevator->currentFloor = floor;
-    if(*pQueue != NO_FLOOR) {
-        pElevator->nextFloor = *pQueue;
-    } else {
-        pElevator->state = ELEVATOR_STANDBY;
-    }
-    doorOpen();
 
-    Timer timer = timerStartTimer(3000);
-    while(clock() < timer.timerDuration) {
-        if(emergencyPollObstruction()) {
-            timer = timerStartTimer(3000);
+    if(pElevator->state != ELEVATOR_STANDBY) {
+        if(*pQueue != NO_FLOOR) {
+            pElevator->nextFloor = *pQueue;
+        } else {
+            pElevator->state = ELEVATOR_STANDBY;
         }
-        orderPoll(pQueue, pElevator);
-        orderClear(floor, pQueue, pElevator);
+        doorOpen();
+
+        Timer timer = timerStartTimer(3000);
+        while(clock() < timer.timerDuration) {
+            if(emergencyPollObstruction()) {
+                timer = timerStartTimer(3000);
+            }
+            orderPoll(pQueue, pElevator);
+            orderClear(floor, pQueue, pElevator);
+        }
+        doorClose();
     }
-    doorClose();
 }
 
 int elevatorArrivedAtFloor(int floor) {
@@ -92,7 +95,7 @@ void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
     emergencyPollStop(pQueue, pElevator);
     doorClose();
 
-    if(elevatorArrivedAtFloor(pElevator->nextFloor) && pElevator->state != ELEVATOR_STANDBY) {
+    if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);
     }
 }
