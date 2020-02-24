@@ -21,7 +21,7 @@ typedef enum {
 } ElevatorState;
 
 /* Brukes i orderAddToQueue, update hvis bedre løsning finnes. Må muligens legges til i c-fila. */
-typedef struct {
+typedef struct Elevator{
     int currentFloor;
     int nextFloor;
     ElevatorState state;
