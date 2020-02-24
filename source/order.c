@@ -3,7 +3,7 @@ extern int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
 extern int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
 extern int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
 extern int queue[HARDWARE_NUMBER_OF_FLOORS];
-
+#define NO_FLOOR -1
 
 void orderPoll(void) {
         for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
@@ -21,19 +21,21 @@ void orderPoll(void) {
 
 void orderAdd(int floor, HardwareOrder orderType) { 
     if (hardware_read_order(floor, orderType)) {
-        orderAddToQueue();
         switch(orderType) {
             case HARDWARE_ORDER_INSIDE:
-                ordersInside[floor-1] = 1;
-                hardware_command_order_light(floor-1, HARDWARE_ORDER_INSIDE, 1);
+                ordersInside[floor] = 1;
+                hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 1);
+                orderAddToQueue();
                 break;
             case HARDWARE_ORDER_UP:
-                ordersUp[floor-1] = 1;
-                hardware_command_order_light(floor-1, HARDWARE_ORDER_UP, 1);
+                ordersUp[floor] = 1;
+                hardware_command_order_light(floor, HARDWARE_ORDER_UP, 1);
+                orderAddToQueue();
                 break;
             case HARDWARE_ORDER_DOWN:
-                ordersDown[floor-1] = 1;
-                hardware_command_order_light(floor-1, HARDWARE_ORDER_DOWN, 1);
+                ordersDown[floor] = 1;
+                hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 1);
+                orderAddToQueue();
                 break;
         }
     }
@@ -41,16 +43,16 @@ void orderAdd(int floor, HardwareOrder orderType) {
 
 void orderClear(int floor) {
     orderShiftQueue();
-    ordersInside[floor-1] = 0;
-    hardware_command_order_light(floor-1, HARDWARE_ORDER_INSIDE, 0);
-    ordersUp[floor-1] = 0;
-    hardware_command_order_light(floor-1, HARDWARE_ORDER_UP, 0);
-    ordersDown[floor-1] = 0;
-    hardware_command_order_light(floor-1, HARDWARE_ORDER_DOWN, 0);
+    ordersInside[floor] = 0;
+    hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
+    ordersUp[floor] = 0;
+    hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
+    ordersDown[floor] = 0;
+    hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
 }
 
 void orderClearAll(void) {
-    for (int f=1; f<5; f++) {
+    for (int f=0; f<HARDWARE_NUMBER_OF_FLOORS; f++) {
         orderClear(f);
     }
 }
@@ -60,7 +62,7 @@ void orderAddToQueue(void) {
     int queueIndex = 0;
     if (elevatorState == ELEVATOR_GOING_UP) {
         for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-            if ((ordersInside[f]==1||ordersUp[f]==1)&&(f+1>elevatorCurrentFloor)) {
+            if ((ordersInside[f]==1||ordersUp[f]==1)&&(f>elevatorCurrentFloor)) {
                 queue[queueIndex] = f+1;
                 queueIndex++;
             }
@@ -68,7 +70,7 @@ void orderAddToQueue(void) {
     }
     else if (elevatorState == ELEVATOR_GOING_DOWN) {
         for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-            if ((ordersInside[f]==1||ordersDown[f]==1)&&(f+1<elevatorCurrentFloor)) {
+            if ((ordersInside[f]==1||ordersDown[f]==1)&&(f<elevatorCurrentFloor)) {
                 queue[queueIndex] = f+1;
                 queueIndex++;
             }
@@ -77,10 +79,10 @@ void orderAddToQueue(void) {
 }
 
 void orderShiftQueue(void) {
-    if (queue[0]==elevatorCurrentFloor-1) {
+    if (queue[0]==elevatorCurrentFloor) {
         queue[0] = queue[1];
         queue[1] = queue[2];
         queue[2] = queue[3];
-        queue[3] = 0;
+        queue[3] = NO_FLOOR;
     }
 }
