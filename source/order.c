@@ -77,8 +77,10 @@ void orderAddToQueue(void) {
 }
 
 void orderShiftQueue(void) {
-    queue[0] = queue[1];
-    queue[1] = queue[2];
-    queue[2] = queue[3];
-    queue[3] = 0;
+    if (queue[0]==elevatorCurrentFloor-1) {
+        queue[0] = queue[1];
+        queue[1] = queue[2];
+        queue[2] = queue[3];
+        queue[3] = 0;
+    }
 }
