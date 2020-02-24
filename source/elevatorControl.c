@@ -65,7 +65,7 @@ void elevatorMovement(Elevator* pElevator) {
 }
 
 void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
-    if(pElevator->state == ELEVATOR_STANDBY) {
+    if(pElevator->state == ELEVATOR_STANDBY && *pQueue >= 0) {
         pElevator->nextFloor = *pQueue;
     }
 }
