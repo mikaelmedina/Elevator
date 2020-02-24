@@ -21,9 +21,12 @@ typedef enum {
 } ElevatorState;
 
 /* Brukes i orderAddToQueue, update hvis bedre løsning finnes. Må muligens legges til i c-fila. */
-extern int elevatorCurrentFloor;
-extern int elevatorNextFloor;
-extern ElevatorState elevatorState;
+typedef struct {
+    int currentFloor;
+    int nextFloor;
+    ElevatorState state;
+} Elevator;
+
 
 /**
  * @brief Polls the floor sensors and returns what floor the elevator is at.
@@ -45,7 +48,7 @@ int elevatorToKnownState(void);
  * when elevator arrives at the give @p floor.
  * @param floor Floor the elevator has arrived at.
 */
-void elevatorArrival(int floor);
+void elevatorArrival(int floor, Elevator* elevator);
 
 /**
  * @brief Checks if the elevator has arrived at the wanted @p floor, and 
@@ -72,7 +75,7 @@ void elevatorExecuteOrder();
 /**
  * @brief The main loop that controls the elevator, polling everything.
 */
-void elevatorMainLoop(void);
+void elevatorMainLoop(Elevator* elevator);
 
 
 #endif

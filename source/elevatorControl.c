@@ -22,15 +22,15 @@ int elevatorToKnownState(void) {
     return elevatorPollFloor();
 }
 
-void elevatorArrival(int floor) {
+void elevatorArrival(int floor, Elevator* elevator) {
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
     hardware_command_floor_indicator_on(floor);
     orderClear(floor);
     
     //STATE STOPPED/OPERATING
-    elevatorCurrentFloor = floor;
+    elevator->currentFloor = floor;
     if(orderQueue[0] != NO_FLOOR) {
-        elevatorNextFloor = orderQueue[0];
+        elevator->nextFloor = orderQueue[0];
     }
     doorOpen();
     Timer timer = timerStartTimer(3000);
@@ -68,7 +68,7 @@ void elevatorExecuteOrder() {
 
 
 
-void elevatorMainLoop(void) {
+void elevatorMainLoop(Elevator* elevator) {
     if(emergencyPollStop() && elevatorPollFloor() != NO_FLOOR) {
         Timer timer = timerStartTimer(3000);
         while(clock() < timer.timerDuration) {
@@ -80,9 +80,7 @@ void elevatorMainLoop(void) {
 
     // Ser på bestillinger og utfører
 
-    // Change 1 to current order being executed
-    if(elevatorArrivedAtFloor(elevatorNextFloor)) {
-        elevatorArrival(elevatorNextFloor);
-        //elevatorArrival()
+    if(elevatorArrivedAtFloor(elevator->nextFloor)) {
+        elevatorArrival(elevator->nextFloor, elevator);
     }
 }
