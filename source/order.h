@@ -12,8 +12,12 @@
 
 /**
  * @brief Polls the buttons and adds active buttons to lists.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
  */
-void orderPoll(void);
+void orderPoll(int *pQueue, Elevator *pElevator);
 
 /**
  * @brief Adds active button to list.
@@ -21,15 +25,23 @@ void orderPoll(void);
  * @param floor The floor of the button.
  * 
  * @param orderType Type of the order.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
  */
-void orderAdd(int floor, HardwareOrder orderType);
+void orderAdd(int floor, HardwareOrder orderType, int *pQueue, Elevator *pElevator);
 
 /**
  * @brief Clears all orders at given @p floor.
  * 
  * @param floor The floor to be cleared of orders.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
  */
-void orderClear(int floor);
+void orderClear(int floor, int *pQueue, Elevator *pElevator);
 
 /**
  * @brief Clears all orders at all floors.
@@ -38,12 +50,20 @@ void orderClearAll(void);
 
 /**
  * @brief Is used in orderAdd to update the queue.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
  */
-void orderAddToQueue(void);
+void orderAddToQueue(int *pQueue, Elevator *pElevator);
 
 /**
  * @brief Removes the finished queue order and leftshifts once. Used in orderClear.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
  */ 
-void orderShiftQueue(void);
+void orderShiftQueue(int *pQueue, Elevator *pElevator);
 
 #endif
