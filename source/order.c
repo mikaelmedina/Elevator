@@ -49,9 +49,9 @@ void orderClear(int floor, int *pQueue, Elevator *pElevator) {
     hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
 }
 
-void orderClearAll(void) {
+void orderClearAll(int *pQueue, Elevator *pElevator) {
     for (int f=0; f<HARDWARE_NUMBER_OF_FLOORS; f++) {
-        orderClear(f);
+        orderClear(f, pQueue, pElevator);
     }
 }
 
