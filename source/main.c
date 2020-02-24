@@ -26,7 +26,7 @@ int main(){
 
 
 
-    int floorQueue[HARDWARE_NUMBER_OF_FLOORS];
+    int floorQueue[HARDWARE_NUMBER_OF_FLOORS] = {NO_FLOOR, NO_FLOOR, NO_FLOOR, NO_FLOOR};
     Elevator elevator;
 
     int startFloor = elevatorToKnownState(&elevator);
