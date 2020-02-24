@@ -46,9 +46,12 @@ int elevatorToKnownState(void);
 /**
  * @brief This function handles every function that needs to be called
  * when elevator arrives at the give @p floor.
+ * 
  * @param floor Floor the elevator has arrived at.
+ * @param pQueue pointer to queue.
+ * @param pElevator pointer to elevator struct with info about the elevator.
 */
-void elevatorArrival(int floor, Elevator* elevator);
+void elevatorArrival(int floor, int* pQueue, Elevator* pElevator);
 
 /**
  * @brief Checks if the elevator has arrived at the wanted @p floor, and 
@@ -74,8 +77,11 @@ void elevatorExecuteOrder();
 
 /**
  * @brief The main loop that controls the elevator, polling everything.
+ * 
+ * @param pQueue pointer to queue.
+ * @param pElevator pointer to elevator struct with info about the elevator.
 */
-void elevatorMainLoop(Elevator* elevator);
+void elevatorMainLoop(int* pQueue, Elevator* pElevator);
 
 
 #endif
