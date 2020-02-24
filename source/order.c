@@ -2,7 +2,7 @@
 extern int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
 extern int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
 extern int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
-extern int queue[HARDWARE_NUMBER_OF_FLOORS];
+extern int orderQueue[HARDWARE_NUMBER_OF_FLOORS];
 
 void orderPoll(void) {
         for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
@@ -62,7 +62,7 @@ void orderAddToQueue(void) {
     if (elevatorState == ELEVATOR_GOING_UP) {
         for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
             if ((ordersInside[f]==1||ordersUp[f]==1)&&(f>elevatorCurrentFloor)) {
-                queue[queueIndex] = f+1;
+                orderQueue[queueIndex] = f+1;
                 queueIndex++;
             }
         }
@@ -70,7 +70,7 @@ void orderAddToQueue(void) {
     else if (elevatorState == ELEVATOR_GOING_DOWN) {
         for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
             if ((ordersInside[f]==1||ordersDown[f]==1)&&(f<elevatorCurrentFloor)) {
-                queue[queueIndex] = f+1;
+                    orderQueue[queueIndex] = f+1;
                 queueIndex++;
             }
         }
@@ -78,10 +78,10 @@ void orderAddToQueue(void) {
 }
 
 void orderShiftQueue(void) {
-    if (queue[0]==elevatorCurrentFloor) {
-        queue[0] = queue[1];
-        queue[1] = queue[2];
-        queue[2] = queue[3];
-        queue[3] = NO_FLOOR;
+    if (orderQueue[0]==elevatorCurrentFloor) {
+        orderQueue[0] = orderQueue[1];
+        orderQueue[1] = orderQueue[2];
+        orderQueue[2] = orderQueue[3];
+        orderQueue[3] = NO_FLOOR;
     }
 }
