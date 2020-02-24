@@ -58,21 +58,31 @@ void orderClearAll(int *pQueue, Elevator *pElevator) {
 void orderAddToQueue(int *pQueue, Elevator *pElevator) {
     /* funcSetDirection(); */
     int queueIndex = 0;
-    if (pElevator->state == ELEVATOR_GOING_UP) {
-        for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-            if ((ordersInside[f]==1||ordersUp[f]==1)&&(f>pElevator->currentFloor)) {
-                *(pQueue+queueIndex) = f;
-                queueIndex++;
-            }
-        }
-    }
-    else if (pElevator->state == ELEVATOR_GOING_DOWN) {
-        for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-            if ((ordersInside[f]==1||ordersDown[f]==1)&&(f<pElevator->currentFloor)) {
+    switch (pElevator->state) {
+        case (ELEVATOR_GOING_UP):
+            for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
+                if ((ordersInside[f]==1||ordersUp[f]==1)&&(f>pElevator->currentFloor)) {
                     *(pQueue+queueIndex) = f;
-                queueIndex++;
+                    queueIndex++;
+                }
             }
-        }
+            break;
+        case (ELEVATOR_GOING_DOWN):
+            for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
+                if ((ordersInside[f]==1||ordersDown[f]==1)&&(f<pElevator->currentFloor)) {
+                    *(pQueue+queueIndex) = f;
+                    queueIndex++;
+                }
+            }
+            break;
+        case (ELEVATOR_STANDBY):
+            for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
+                if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[f]==1) {
+                    *(pQueue+queueIndex) = f;
+                    queueIndex++;
+                }
+            }
+            break;
     }
 }
 

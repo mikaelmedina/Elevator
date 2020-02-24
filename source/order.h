@@ -45,8 +45,12 @@ void orderClear(int floor, int *pQueue, Elevator *pElevator);
 
 /**
  * @brief Clears all orders at all floors.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
  */
-void orderClearAll(void);
+void orderClearAll(int *pQueue, Elevator *pElevator);
 
 /**
  * @brief Is used in orderAdd to update the queue.
