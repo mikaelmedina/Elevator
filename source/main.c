@@ -35,7 +35,7 @@ int main(){
     elevator.state = ELEVATOR_STANDBY;
 
     while(1){
-        elevatorMainLoop(&floorQueue, &elevator);
+        elevatorMainLoop(floorQueue, &elevator);
         signal(SIGINT, sigint_handler);
     }
 

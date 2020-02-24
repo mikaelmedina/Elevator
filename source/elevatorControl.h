@@ -7,9 +7,6 @@
 #ifndef ELEVATORCONTROL_H
 #define ELEVATORCONTROL_H
 #include "hardware.h"
-#include "emergency.h"
-#include "order.h"
-#include "timerControl.h"
 
 typedef enum {
     ELEVATOR_GOING_UP,
@@ -20,12 +17,15 @@ typedef enum {
     ELEVATOR_OBSTRUCTED
 } ElevatorState;
 
-/* Brukes i orderAddToQueue, update hvis bedre løsning finnes. Må muligens legges til i c-fila. */
 typedef struct Elevator{
     int currentFloor;
     int nextFloor;
     ElevatorState state;
 } Elevator;
+
+#include "emergency.h"
+#include "order.h"
+#include "timerControl.h"
 
 
 /**

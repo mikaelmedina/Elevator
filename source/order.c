@@ -1,7 +1,7 @@
 #include "order.h"
-extern int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
-extern int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
-extern int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
+int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
+int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
+int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
 
 void orderPoll(int *pQueue, Elevator *pElevator) {
         for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
@@ -82,6 +82,8 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator) {
                     queueIndex++;
                 }
             }
+            break;
+        default:
             break;
     }
 }

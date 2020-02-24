@@ -7,7 +7,7 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
         orderClearAll(pQueue, pElevator);
         while(hardware_read_stop_signal()) {
             if(elevatorPollFloor() != NO_FLOOR) {
-                openDoor();
+                doorOpen();
             }
         }
         hardware_command_stop_light(0);
