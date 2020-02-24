@@ -8,12 +8,7 @@
 #define ORDER_H
 #include "hardware.h"
 #include "elevatorControl.h"
-
-
-extern int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
-extern int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
-extern int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
-extern int queue[HARDWARE_NUMBER_OF_FLOORS];
+#define NO_FLOOR -1
 
 /**
  * @brief Polls the buttons and adds active buttons to lists.

@@ -3,7 +3,6 @@ extern int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
 extern int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
 extern int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
 extern int queue[HARDWARE_NUMBER_OF_FLOORS];
-#define NO_FLOOR -1
 
 void orderPoll(void) {
         for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
