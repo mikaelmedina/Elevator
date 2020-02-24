@@ -62,12 +62,9 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator);
 int elevatorArrivedAtFloor(int floor);
 
 /**
- * @brief Commands the elevator to move up or down, depending on if @p floor
- * is above or below current floor.
- * 
- * @param floor Desired floor to move towards.
-*/
-void elevatorMovement(int floor);
+ *
+ */
+void elevatorMovement(Elevator* pElevator);
 
 /**
  * @brief Commands the elevator to execute a given order. 

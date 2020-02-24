@@ -52,18 +52,25 @@ int elevatorArrivedAtFloor(int floor) {
     return 0;
 }
 
-void elevatorMovement(int floor) {
-    int currentFloor = elevatorPollFloor();
-    // set global variable destination = floor;
-    if(currentFloor > floor) {
+void elevatorMovement(Elevator* pElevator) {
+    if(pElevator->nextFloor < pElevator->currentFloor) {
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-    } else {
+        pElevator->state = ELEVATOR_GOING_DOWN;
+    } 
+    else if(pElevator->nextFloor > pElevator->currentFloor) {
         hardware_command_movement(HARDWARE_MOVEMENT_UP);
+        pElevator->state = ELEVATOR_GOING_UP;
+    } 
+    else {
+        hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+        pElevator->state = ELEVATOR_STANDBY;
     }
 }
 
-void elevatorExecuteOrder() {
-    //Set state to where elevator is going
+void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
+    if(pElevator->currentFloor == pElevator->nextFloor) {
+
+    }
 }
 
 
@@ -79,7 +86,11 @@ void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
     }
     orderPoll(pQueue, pElevator);
 
-    // Ser på bestillinger og utfører
+    elevatorExecuteOrder(pQueue, pElevator);
+
+
+
+    elevatorMovement(pElevator);
 
     if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);
