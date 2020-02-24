@@ -3,9 +3,10 @@
 #include <signal.h>
 #include "hardware.h"
 #include "timerControl.h"
+#include "elevatorControl.h"
 #include "doorControl.h"
 #include "order.h"
-#include "elevatorControl.h"
+#include "emergency.h"
 
 
 static void clear_all_order_lights(){
