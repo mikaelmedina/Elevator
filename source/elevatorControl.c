@@ -9,16 +9,12 @@ int elevatorPollFloor(void) {
     return NO_FLOOR;
 }
 
-int elevatorToKnownState(void) {
+int elevatorToKnownState(Elevator* pElevator) {
     while(elevatorPollFloor() == NO_FLOOR) {
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
     }
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-
-    //
-    // Set state to standby 
-    //
-
+    
     return elevatorPollFloor();
 }
 
@@ -27,10 +23,11 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
     hardware_command_floor_indicator_on(floor);
     orderClear(floor, pQueue, pElevator);
     
-    //STATE STOPPED/OPERATING
     pElevator->currentFloor = floor;
     if(*pQueue != NO_FLOOR) {
         pElevator->nextFloor = *pQueue;
+    } else {
+        pElevator->state = ELEVATOR_STANDBY;
     }
     doorOpen();
 
@@ -68,8 +65,8 @@ void elevatorMovement(Elevator* pElevator) {
 }
 
 void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
-    if(pElevator->currentFloor == pElevator->nextFloor) {
-
+    if(pElevator->state == ELEVATOR_STANDBY) {
+        pElevator->nextFloor = *pQueue;
     }
 }
 
@@ -84,13 +81,14 @@ void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
         }
         doorClose();
     }
+
     orderPoll(pQueue, pElevator);
 
     elevatorExecuteOrder(pQueue, pElevator);
 
-
-
     elevatorMovement(pElevator);
+
+    emergencyPollStop(pQueue, pElevator);
 
     if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);

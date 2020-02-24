@@ -41,7 +41,7 @@ int elevatorPollFloor(void);
  * 
  * @return Integer value of what floor the elevator is at.
 */
-int elevatorToKnownState(void);
+int elevatorToKnownState(Elevator* pElevator);
 
 /**
  * @brief This function handles every function that needs to be called
