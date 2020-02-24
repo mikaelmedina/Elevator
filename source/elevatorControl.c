@@ -77,7 +77,7 @@ void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
 
 
 void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
-    if(emergencyPollStop() && elevatorPollFloor() != NO_FLOOR) {
+    if(emergencyPollStop(pQueue, pElevator) && elevatorPollFloor() != NO_FLOOR) {
         Timer timer = timerStartTimer(3000);
         while(clock() < timer.timerDuration) {
             orderPoll(pQueue, pElevator);

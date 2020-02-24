@@ -16,7 +16,7 @@
  *  opens the door if at a floor.
  * @return 1 if the button was pressed, 0 otherwise.
  */
-int emergencyPollStop(void);
+int emergencyPollStop(int* pQueue, Elevator* pElevator);
 
 /**
  * @brief Polls the obstruction switch, if there is an obstruction

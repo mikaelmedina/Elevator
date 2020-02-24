@@ -70,7 +70,7 @@ void elevatorMovement(Elevator* pElevator);
  * @brief Commands the elevator to execute a given order. 
  * I.E move up to floor 3.
 */
-void elevatorExecuteOrder();
+void elevatorExecuteOrder(int* pQueue, Elevator* pElevator);
 
 /**
  * @brief The main loop that controls the elevator, polling everything.
