@@ -1,16 +1,16 @@
 #include "elevatorControl.h"
 
 int elevatorPollFloor(void) {
-    for(int floor = 1; floor < 5; floor++) {
+    for(int floor = 0; floor < HARDWARE_NUMBER_OF_FLOORS; floor++) {
         if(hardware_read_floor_sensor(floor)) {
             return floor;
         }
     }
-    return 0;
+    return NO_FLOOR;
 }
 
 int elevatorToKnownState(void) {
-    while(!elevatorPollFloor) {
+    while(elevatorPollFloor() == NO_FLOOR) {
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
     }
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
@@ -28,6 +28,10 @@ void elevatorArrival(int floor) {
     orderClear(floor);
     
     //STATE STOPPED/OPERATING
+    elevatorCurrentFloor = floor;
+    if(orderQueue[0] != NO_FLOOR) {
+        elevatorNextFloor = orderQueue[0];
+    }
     doorOpen();
     Timer timer = timerStartTimer(3000);
     while(clock() < timer.timerDuration) {
@@ -42,7 +46,6 @@ void elevatorArrival(int floor) {
 
 int elevatorArrivedAtFloor(int floor) {
     if(hardware_read_floor_sensor(floor)) {
-        elevatorArrival(floor);
         return 1;
     }
     return 0;
@@ -66,7 +69,7 @@ void elevatorExecuteOrder() {
 
 
 void elevatorMainLoop(void) {
-    if(emergencyPollStop() && elevatorPollFloor()) {
+    if(emergencyPollStop() && elevatorPollFloor() != NO_FLOOR) {
         Timer timer = timerStartTimer(3000);
         while(clock() < timer.timerDuration) {
             orderPoll();
@@ -75,8 +78,11 @@ void elevatorMainLoop(void) {
     }
     orderPoll();
 
+    // Ser på bestillinger og utfører
+
     // Change 1 to current order being executed
-    if(elevatorArrivedAtFloor(1)) {
+    if(elevatorArrivedAtFloor(elevatorNextFloor)) {
+        elevatorArrival(elevatorNextFloor);
         //elevatorArrival()
     }
 }

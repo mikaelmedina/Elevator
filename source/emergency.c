@@ -6,7 +6,7 @@ int emergencyPollStop(void) {
         hardware_command_movement(HARDWARE_MOVEMENT_STOP);
         orderClearAll();
         while(hardware_read_stop_signal()) {
-            if(elevatorPollFloor()) {
+            if(elevatorPollFloor() != NO_FLOOR) {
                 openDoor();
             }
         }

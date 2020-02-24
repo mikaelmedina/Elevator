@@ -28,7 +28,7 @@ extern ElevatorState elevatorState;
 /**
  * @brief Polls the floor sensors and returns what floor the elevator is at.
  * 
- * @return Integer value of what floor the elevator is at, 0 if none.
+ * @return Integer value of what floor the elevator is at, -1 if none.
 */
 int elevatorPollFloor(void);
 
