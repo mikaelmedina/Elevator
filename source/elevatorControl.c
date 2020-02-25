@@ -53,7 +53,7 @@ int elevatorArrivedAtFloor(int floor) {
 }
 
 void elevatorMovement(int* pQueue, Elevator* pElevator) {
-    if (pElevator->state == ELEVATOR_STOPPED) {
+    if (pElevator->state == ELEVATOR_STOPPED && *pQueue > NO_FLOOR) {
         int above = (pElevator->nextFloor > pElevator->currentFloor);
         orderAddToQueue(pQueue, pElevator);
         pElevator->nextFloor = *pQueue;
@@ -89,7 +89,7 @@ void elevatorMovement(int* pQueue, Elevator* pElevator) {
 }
 
 void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
-    if(pElevator->state == ELEVATOR_STANDBY && *pQueue >= 0) {
+    if(pElevator->state == ELEVATOR_STANDBY && *pQueue > NO_FLOOR) {
         pElevator->nextFloor = *pQueue;
     }
 }
