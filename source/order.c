@@ -56,7 +56,6 @@ void orderClearAll(int *pQueue, Elevator *pElevator) {
 }
 
 void orderAddToQueue(int *pQueue, Elevator *pElevator) {
-    /* funcSetDirection(); */
     int queueIndex = 0;
     switch (pElevator->state) {
         case (ELEVATOR_GOING_UP):
