@@ -64,7 +64,7 @@ int elevatorArrivedAtFloor(int floor);
 /**
  *
  */
-void elevatorMovement(Elevator* pElevator);
+void elevatorMovement(int* pQueue, Elevator* pElevator);
 
 /**
  * @brief Commands the elevator to execute a given order. 

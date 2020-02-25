@@ -98,23 +98,10 @@ void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
 
 
 void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
-    if(emergencyPollStop(pQueue, pElevator) && elevatorPollFloor() != NO_FLOOR) {
-        Timer timer = timerStartTimer(3000);
-        while(clock() < timer.timerDuration) {
-            hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-            orderPoll(pQueue, pElevator);
-        }
-        doorClose();
-    }
-
     orderPoll(pQueue, pElevator);
-
     elevatorExecuteOrder(pQueue, pElevator);
-
-    elevatorMovement(pElevator);
-
+    elevatorMovement(pQueue, pElevator);
     emergencyPollStop(pQueue, pElevator);
-    doorClose();
 
     if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);
