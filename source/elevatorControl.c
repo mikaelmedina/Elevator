@@ -74,23 +74,26 @@ void elevatorMovement(int* pQueue, Elevator* pElevator) {
             pElevator->state = ELEVATOR_GOING_DOWN;
         }
     }
-    else if(pElevator->nextFloor < pElevator->currentFloor) {
-        hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-        pElevator->state = ELEVATOR_GOING_DOWN;
-    } 
-    else if(pElevator->nextFloor > pElevator->currentFloor) {
-        hardware_command_movement(HARDWARE_MOVEMENT_UP);
-        pElevator->state = ELEVATOR_GOING_UP;
-    } 
-    else {
-        hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-        pElevator->state = ELEVATOR_STANDBY;
+    if(pElevator->state != ELEVATOR_STOPPED) {
+        if(pElevator->nextFloor < pElevator->currentFloor) {
+            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+            pElevator->state = ELEVATOR_GOING_DOWN;
+        } 
+        else if(pElevator->nextFloor > pElevator->currentFloor) {
+            hardware_command_movement(HARDWARE_MOVEMENT_UP);
+            pElevator->state = ELEVATOR_GOING_UP;
+        } 
+        else {
+            hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+            pElevator->state = ELEVATOR_STANDBY;
+        }
     }
 }
 
 void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
-    if(pElevator->state == ELEVATOR_STANDBY && *pQueue > NO_FLOOR) {
+    if((pElevator->state == ELEVATOR_STANDBY && *pQueue > NO_FLOOR) || (pElevator->state == ELEVATOR_STOPPED && *pQueue > NO_FLOOR)) {
         pElevator->nextFloor = *pQueue;
+        pElevator->state = ELEVATOR_STANDBY;
     }
 }
 
