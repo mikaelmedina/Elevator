@@ -25,7 +25,7 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
     
     pElevator->currentFloor = floor;
 
-    if(pElevator->state != ELEVATOR_STANDBY) {
+    if(pElevator->state != ELEVATOR_STANDBY && pElevator->state != ELEVATOR_STOPPED) {
         if(*pQueue != NO_FLOOR) {
             pElevator->nextFloor = *pQueue;
         } else {
@@ -99,6 +99,7 @@ void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
 
 void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
     orderPoll(pQueue, pElevator);
+    orderAddToQueue(pQueue, pElevator);
     elevatorExecuteOrder(pQueue, pElevator);
     elevatorMovement(pQueue, pElevator);
     emergencyPollStop(pQueue, pElevator);

@@ -14,6 +14,7 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
                 returnValue = 2;
             }
         }
+        hardware_command_stop_light(0);
         if(returnValue == 2) {
             Timer timer = timerStartTimer(3000);
             while(clock() < timer.timerDuration) {
@@ -21,7 +22,6 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
             }
             doorClose();
         }
-        hardware_command_stop_light(0);
         return returnValue;
     }
     hardware_command_stop_light(0);
