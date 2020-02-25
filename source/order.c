@@ -52,6 +52,7 @@ void orderClear(int floor, int *pQueue, Elevator *pElevator) {
 void orderClearAll(int *pQueue, Elevator *pElevator) {
     for (int f=0; f<HARDWARE_NUMBER_OF_FLOORS; f++) {
         orderClear(f, pQueue, pElevator);
+        *(pQueue+f) = NO_FLOOR;
     }
 }
 
@@ -75,6 +76,14 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator) {
             }
             break;
         case (ELEVATOR_STANDBY):
+            for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
+                if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[f]==1) {
+                    *(pQueue+queueIndex) = f;
+                    queueIndex++;
+                }
+            }
+            break;
+        case (ELEVATOR_STOPPED):
             for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
                 if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[f]==1) {
                     *(pQueue+queueIndex) = f;
