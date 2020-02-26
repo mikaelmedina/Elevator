@@ -69,8 +69,8 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator) {
             break;
         case (ELEVATOR_GOING_DOWN):
             for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-                if ((ordersInside[f]==1||ordersDown[f]==1)&&(f<pElevator->currentFloor)) {
-                    *(pQueue+queueIndex) = f;
+                if ((ordersInside[3-f]==1||ordersDown[3-f]==1)&&((3-f)<pElevator->currentFloor)) {
+                    *(pQueue+queueIndex) = (3-f);
                     queueIndex++;
                 }
             }

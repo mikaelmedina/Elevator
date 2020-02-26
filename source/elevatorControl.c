@@ -75,11 +75,11 @@ void elevatorMovement(int* pQueue, Elevator* pElevator) {
         }
     }
     if(pElevator->state != ELEVATOR_STOPPED) {
-        if(pElevator->nextFloor < pElevator->currentFloor) {
+        if(pElevator->nextFloor <= pElevator->currentFloor) {
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
             pElevator->state = ELEVATOR_GOING_DOWN;
         } 
-        else if(pElevator->nextFloor > pElevator->currentFloor) {
+        else if(pElevator->nextFloor >= pElevator->currentFloor) {
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
             pElevator->state = ELEVATOR_GOING_UP;
         } 
