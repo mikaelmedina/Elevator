@@ -22,6 +22,7 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
             }
             doorClose();
         }
+        pElevator->state = ELEVATOR_STANDBY;
         return returnValue;
     }
     hardware_command_stop_light(0);

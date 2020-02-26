@@ -19,30 +19,63 @@ int elevatorToKnownState(Elevator* pElevator) {
 }
 
 void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
-    hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    hardware_command_floor_indicator_on(floor);
-    orderClear(floor, pQueue, pElevator);
-    
-    pElevator->currentFloor = floor;
-
-    if(pElevator->state != ELEVATOR_STANDBY && pElevator->state != ELEVATOR_STOPPED) {
-        if(*pQueue != NO_FLOOR) {
-            pElevator->nextFloor = *pQueue;
-        } else {
-            pElevator->state = ELEVATOR_STANDBY;
+    switch(pElevator->state) {
+        case(ELEVATOR_STANDBY): {
+            break;
         }
-        doorOpen();
-
-        Timer timer = timerStartTimer(3000);
-        while(clock() < timer.timerDuration) {
-            if(emergencyPollObstruction()) {
-                timer = timerStartTimer(3000);
-            }
-            orderPoll(pQueue, pElevator);
+        case(ELEVATOR_STOPPED): {
+            break;
+        }
+        default: {
+            hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+            hardware_command_floor_indicator_on(floor);
             orderClear(floor, pQueue, pElevator);
+
+            pElevator->currentFloor = floor;
+
+            if(*pQueue != NO_FLOOR) {
+                pElevator->nextFloor = *pQueue;
+            } else {
+                pElevator->state = ELEVATOR_STANDBY;
+            }
+
+            doorOpen();
+            Timer timer = timerStartTimer(3000);
+            while(clock() < timer.timerDuration) {
+                if(emergencyPollObstruction()) {
+                    timer = timerStartTimer(3000);
+                }
+                orderPoll(pQueue, pElevator);
+                orderClear(floor, pQueue, pElevator);
+            }
+            doorClose();
+            break;
         }
-        doorClose();
     }
+
+    // hardware_command_movement(HARDWARE_MOVEMENT_STOP);
+    // hardware_command_floor_indicator_on(floor);
+    // orderClear(floor, pQueue, pElevator);
+    
+    // pElevator->currentFloor = floor;
+    // if(pElevator->state != ELEVATOR_STANDBY && pElevator->state != ELEVATOR_STOPPED) {
+    //     if(*pQueue != NO_FLOOR) {
+    //         pElevator->nextFloor = *pQueue;
+    //     } else {
+    //         pElevator->state = ELEVATOR_STANDBY;
+    //     }
+    //     doorOpen();
+
+    //     Timer timer = timerStartTimer(3000);
+    //     while(clock() < timer.timerDuration) {
+    //         if(emergencyPollObstruction()) {
+    //             timer = timerStartTimer(3000);
+    //         }
+    //         orderPoll(pQueue, pElevator);
+    //         orderClear(floor, pQueue, pElevator);
+    //     }
+    //     doorClose();
+    // }
 }
 
 int elevatorArrivedAtFloor(int floor) {
@@ -53,27 +86,27 @@ int elevatorArrivedAtFloor(int floor) {
 }
 
 void elevatorMovement(int* pQueue, Elevator* pElevator) {
-    if (pElevator->state == ELEVATOR_STOPPED && *pQueue > NO_FLOOR) {
-        int above = (pElevator->nextFloor > pElevator->currentFloor);
-        orderAddToQueue(pQueue, pElevator);
-        pElevator->nextFloor = *pQueue;
-        if (above&&(pElevator->nextFloor > pElevator->currentFloor)) {
-            hardware_command_movement(HARDWARE_MOVEMENT_UP);
-            pElevator->state = ELEVATOR_GOING_UP;
-        }
-        else if(above&&(pElevator->nextFloor <= pElevator->currentFloor)) {
-            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-            pElevator->state = ELEVATOR_GOING_DOWN;
-        }
-        else if(!above&&(pElevator->nextFloor >= pElevator->currentFloor)) {
-            hardware_command_movement(HARDWARE_MOVEMENT_UP);
-            pElevator->state = ELEVATOR_GOING_UP;
-        }
-        else if(!above&&(pElevator->nextFloor < pElevator->currentFloor)) {
-            hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
-            pElevator->state = ELEVATOR_GOING_DOWN;
-        }
-    }
+    // if (pElevator->state == ELEVATOR_STOPPED && *pQueue > NO_FLOOR) {
+    //     int above = (pElevator->nextFloor > pElevator->currentFloor);
+    //     orderAddToQueue(pQueue, pElevator);
+    //     pElevator->nextFloor = *pQueue;
+    //     if (above&&(pElevator->nextFloor > pElevator->currentFloor)) {
+    //         hardware_command_movement(HARDWARE_MOVEMENT_UP);
+    //         pElevator->state = ELEVATOR_GOING_UP;
+    //     }
+    //     else if(above&&(pElevator->nextFloor <= pElevator->currentFloor)) {
+    //         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+    //         pElevator->state = ELEVATOR_GOING_DOWN;
+    //     }
+    //     else if(!above&&(pElevator->nextFloor >= pElevator->currentFloor)) {
+    //         hardware_command_movement(HARDWARE_MOVEMENT_UP);
+    //         pElevator->state = ELEVATOR_GOING_UP;
+    //     }
+    //     else if(!above&&(pElevator->nextFloor < pElevator->currentFloor)) {
+    //         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
+    //         pElevator->state = ELEVATOR_GOING_DOWN;
+    //     }
+    // }
     if(pElevator->state != ELEVATOR_STOPPED) {
         if(pElevator->nextFloor <= pElevator->currentFloor) {
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
