@@ -77,5 +77,6 @@ void orderShiftQueue(int *pQueue, Elevator *pElevator);
  * 
  * @param pElevator Pointer to elevator.
 */
+void orderShitfQueueBack(int *pQueue, Elevator *pElevator);
 
 #endif
