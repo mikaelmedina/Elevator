@@ -70,4 +70,12 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator);
  */ 
 void orderShiftQueue(int *pQueue, Elevator *pElevator);
 
+/**
+ * @brief Shifts the queue back to make room for more urgent orders.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
+*/
+
 #endif

@@ -40,13 +40,15 @@ void orderAdd(int floor, HardwareOrder orderType, int *pQueue, Elevator *pElevat
 }
 
 void orderClear(int floor, int *pQueue, Elevator *pElevator) {
-    orderShiftQueue(pQueue, pElevator);
-    ordersInside[floor] = 0;
-    hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
-    ordersUp[floor] = 0;
-    hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
-    ordersDown[floor] = 0;
-    hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
+    while(*pQueue == floor) {
+        orderShiftQueue(pQueue, pElevator);
+        ordersInside[floor] = 0;
+        hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
+        ordersUp[floor] = 0;
+        hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
+        ordersDown[floor] = 0;
+        hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
+    }
 }
 
 void orderClearAll(int *pQueue, Elevator *pElevator) {
@@ -62,32 +64,56 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator) {
         case (ELEVATOR_GOING_UP):
             for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
                 if ((ordersInside[f]==1||ordersUp[f]==1)&&(f>pElevator->currentFloor)) {
-                    *(pQueue+queueIndex) = f;
-                    queueIndex++;
+                    if(f < *pQueue) {
+                        orderShitfQueueBack(pQueue, pElevator);
+                        pElevator->nextFloor = f;
+                        *pQueue = f;
+                        queueIndex++;
+                    } else {
+                        *(pQueue+queueIndex) = f;
+                        queueIndex++;
+                    }
                 }
             }
             break;
         case (ELEVATOR_GOING_DOWN):
             for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
                 if ((ordersInside[3-f]==1||ordersDown[3-f]==1)&&((3-f)<pElevator->currentFloor)) {
-                    *(pQueue+queueIndex) = (3-f);
-                    queueIndex++;
+                    if(3-f > *pQueue) {
+                        orderShitfQueueBack(pQueue, pElevator);
+                        pElevator->nextFloor = 3-f;
+                        *pQueue = 3-f;
+                        queueIndex++;
+                    } else {
+                        *(pQueue+queueIndex) = 3-f;
+                        queueIndex++;
+                    }
                 }
             }
             break;
         case (ELEVATOR_STANDBY):
             for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-                if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[f]==1) {
-                    *(pQueue+queueIndex) = f;
-                    queueIndex++;
+                if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[3-f]==1) {
+                    if(ordersDown[3-f] == 1) {
+                        *(pQueue+queueIndex) = 3-f;
+                        queueIndex++;
+                    } else {
+                        *(pQueue+queueIndex) = f;
+                        queueIndex++;
+                    }
                 }
             }
             break;
         case (ELEVATOR_STOPPED):
             for (int f=0;f<HARDWARE_NUMBER_OF_FLOORS;f++) {
-                if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[f]==1) {
-                    *(pQueue+queueIndex) = f;
-                    queueIndex++;
+                if (ordersInside[f]==1||ordersUp[f]==1||ordersDown[3-f]==1) {
+                    if(ordersDown[3-f] == 1) {
+                        *(pQueue+queueIndex) = 3-f;
+                        queueIndex++;
+                    } else {
+                        *(pQueue+queueIndex) = f;
+                        queueIndex++;
+                    }
                 }
             }
             break;
@@ -103,4 +129,11 @@ void orderShiftQueue(int *pQueue, Elevator *pElevator) {
         *(pQueue+2) = *(pQueue+3);
         *(pQueue+3) = NO_FLOOR;
     }
+}
+
+void orderShitfQueueBack(int *pQueue, Elevator *pElevator) {
+    *(pQueue+3) = *(pQueue+2);
+    *(pQueue+2) = *(pQueue+1);
+    *(pQueue+1) = *(pQueue);
+    *pQueue = NO_FLOOR;
 }
