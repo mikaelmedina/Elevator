@@ -19,10 +19,14 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
             Timer timer = timerStartTimer(3000);
             while(clock() < timer.timerDuration) {
                 //Keep door open for 3 sec after stop was let go
+                if(emergencyPollObstruction()) {
+                    timer = timerStartTimer(3000);
+                }
             }
-            doorClose();
+            
         }
         pElevator->state = ELEVATOR_STANDBY;
+        doorClose();
         return returnValue;
     }
     hardware_command_stop_light(0);

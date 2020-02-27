@@ -14,7 +14,7 @@ int elevatorToKnownState(Elevator* pElevator) {
         hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
     }
     hardware_command_movement(HARDWARE_MOVEMENT_STOP);
-    
+    hardware_command_floor_indicator_on(elevatorPollFloor());    
     return elevatorPollFloor();
 }
 
@@ -47,6 +47,7 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
                 }
                 orderPoll(pQueue, pElevator);
                 orderClear(floor, pQueue, pElevator);
+                emergencyPollStop(pQueue, pElevator);
             }
             doorClose();
             break;
@@ -95,6 +96,9 @@ void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
     elevatorMovement(pQueue, pElevator);
     emergencyPollStop(pQueue, pElevator);
 
+    if(elevatorPollFloor() != NO_FLOOR) {
+        pElevator->currentFloor = elevatorPollFloor();
+    }
     if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);
     }
