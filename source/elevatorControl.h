@@ -12,9 +12,7 @@ typedef enum {
     ELEVATOR_GOING_UP,
     ELEVATOR_GOING_DOWN,
     ELEVATOR_STOPPED,
-    ELEVATOR_OPERATING,
     ELEVATOR_STANDBY,
-    ELEVATOR_OBSTRUCTED
 } ElevatorState;
 
 typedef struct Elevator{
