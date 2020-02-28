@@ -4,17 +4,17 @@ int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
 int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
 
 void orderPoll(int *pQueue, Elevator *pElevator) {
-        for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
-            if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
-                orderAdd(f, HARDWARE_ORDER_INSIDE, pQueue, pElevator);
-            }
-            if(hardware_read_order(f, HARDWARE_ORDER_DOWN)){
-                orderAdd(f, HARDWARE_ORDER_DOWN, pQueue, pElevator);
-            }
-            if(hardware_read_order(f, HARDWARE_ORDER_UP)){
-                orderAdd(f, HARDWARE_ORDER_UP, pQueue, pElevator);
-            }
+    for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
+        if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
+            orderAdd(f, HARDWARE_ORDER_INSIDE, pQueue, pElevator);
         }
+        if(hardware_read_order(f, HARDWARE_ORDER_DOWN)){
+            orderAdd(f, HARDWARE_ORDER_DOWN, pQueue, pElevator);
+        }
+        if(hardware_read_order(f, HARDWARE_ORDER_UP)){
+            orderAdd(f, HARDWARE_ORDER_UP, pQueue, pElevator);
+        }
+    }
 }
 
 void orderAdd(int floor, HardwareOrder orderType, int *pQueue, Elevator *pElevator) { 
@@ -40,14 +40,17 @@ void orderAdd(int floor, HardwareOrder orderType, int *pQueue, Elevator *pElevat
 }
 
 void orderClear(int floor, int *pQueue, Elevator *pElevator) {
-    while(*pQueue == floor) {
-        orderShiftQueue(pQueue, pElevator);
-        ordersInside[floor] = 0;
-        hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
-        ordersUp[floor] = 0;
-        hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
-        ordersDown[floor] = 0;
-        hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
+    orderShiftQueue(pQueue, pElevator);
+    ordersInside[floor] = 0;
+    hardware_command_order_light(floor, HARDWARE_ORDER_INSIDE, 0);
+    ordersUp[floor] = 0;
+    hardware_command_order_light(floor, HARDWARE_ORDER_UP, 0);
+    ordersDown[floor] = 0;
+    hardware_command_order_light(floor, HARDWARE_ORDER_DOWN, 0);
+    for(int i = 0; i < HARDWARE_NUMBER_OF_FLOORS; i++) {
+        if(*(pQueue+i) == floor) {
+            *(pQueue+i) = NO_FLOOR;
+        }
     }
 }
 
