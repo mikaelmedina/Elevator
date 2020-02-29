@@ -12,12 +12,13 @@ typedef enum {
     ELEVATOR_GOING_UP,
     ELEVATOR_GOING_DOWN,
     ELEVATOR_STOPPED,
-    ELEVATOR_STANDBY,
+    ELEVATOR_STANDBY
 } ElevatorState;
 
 typedef struct Elevator{
     int currentFloor;
     int nextFloor;
+    int stoppedBelow;
     ElevatorState state;
 } Elevator;
 
