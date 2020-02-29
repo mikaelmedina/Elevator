@@ -15,11 +15,14 @@ typedef enum {
     ELEVATOR_STANDBY,
 } ElevatorState;
 
+/**
+ * @brief Struct that holds information about an elevator.
+*/
 typedef struct Elevator{
-    int currentFloor;
-    int nextFloor;
-    int stoppedBelow;
-    ElevatorState state;
+    int currentFloor; /**The last floor the elevator stopped at/passed*/
+    int nextFloor; /**The next floor the elevator is going to*/
+    int stoppedBelow; /**Whether the elevator stopped below the current floor or not*/
+    ElevatorState state; /**The current state of the elevator*/
 } Elevator;
 
 #include "emergency.h"
@@ -70,6 +73,13 @@ void elevatorMovement(int* pQueue, Elevator* pElevator);
  * I.E move up to floor 3.
 */
 void elevatorExecuteOrder(int* pQueue, Elevator* pElevator);
+
+/**
+ * @brief Routine that checks if the elevator stops below the floor it was at.
+ * 
+ * @param pElevator Pointer to elevator.
+*/
+void elevatorCheckBelow(Elevator* pElevator);
 
 /**
  * @brief The main loop that controls the elevator, polling everything.
