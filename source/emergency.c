@@ -18,7 +18,6 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
         if(returnValue == 2) {
             Timer timer = timerStartTimer(3000);
             while(clock() < timer.timerDuration) {
-                //Keep door open for 3 sec after stop was let go
                 if(emergencyPollObstruction()) {
                     timer = timerStartTimer(3000);
                 }
@@ -37,7 +36,6 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
 }
 
 int emergencyPollObstruction(void) {
-    // && state is door open
     if(hardware_read_obstruction_signal()) {
         return 1;
     }
