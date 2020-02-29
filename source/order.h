@@ -61,22 +61,8 @@ void orderClearAll(int *pQueue, Elevator *pElevator);
  */
 void orderAddToQueue(int *pQueue, Elevator *pElevator);
 
-/**
- * @brief Removes the finished queue order and leftshifts once.
- * 
- * @param pQueue Pointer to queue.
- * 
- * @param pElevator Pointer to elevator.
- */ 
-void orderShiftQueue(int *pQueue, Elevator *pElevator);
+static void orderShiftQueue(int *pQueue, Elevator *pElevator);
 
-/**
- * @brief Shifts the queue back to make room for more urgent orders.
- * 
- * @param pQueue Pointer to queue.
- * 
- * @param pElevator Pointer to elevator.
-*/
-void orderShitfQueueBack(int *pQueue, Elevator *pElevator);
+static void orderShitfQueueBack(int *pQueue, Elevator *pElevator);
 
 #endif

@@ -125,7 +125,7 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator) {
     }
 }
 
-void orderShiftQueue(int *pQueue, Elevator *pElevator) {
+static void orderShiftQueue(int *pQueue, Elevator *pElevator) {
     if (*pQueue == pElevator->currentFloor) {
         *pQueue = *(pQueue+1);
         *(pQueue+1) = *(pQueue+2);
@@ -134,7 +134,7 @@ void orderShiftQueue(int *pQueue, Elevator *pElevator) {
     }
 }
 
-void orderShitfQueueBack(int *pQueue, Elevator *pElevator) {
+static void orderShitfQueueBack(int *pQueue, Elevator *pElevator) {
     *(pQueue+3) = *(pQueue+2);
     *(pQueue+2) = *(pQueue+1);
     *(pQueue+1) = *(pQueue);

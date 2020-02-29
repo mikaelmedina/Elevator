@@ -38,7 +38,7 @@ typedef struct Elevator{
  * 
  * @return Integer value of what floor the elevator is at, -1 if none.
 */
-int elevatorPollFloor(void);
+static int elevatorPollFloor(void);
 
 
 /**
@@ -66,7 +66,7 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator);
  * 
  * @return 1 if at the desired @p floor , 0 otherwise.
 */
-int elevatorArrivedAtFloor(int floor);
+static int elevatorArrivedAtFloor(int floor);
 
 /**
  * @brief Commands the elevator to move in the direction it should.
@@ -75,7 +75,7 @@ int elevatorArrivedAtFloor(int floor);
  * 
  * @param pElevator Pointer to elevator.
  */
-void elevatorMovement(int* pQueue, Elevator* pElevator);
+static void elevatorMovement(int* pQueue, Elevator* pElevator);
 
 /**
  * @brief Commands the elevator to execute orders from the @p pQueue if 
@@ -85,14 +85,14 @@ void elevatorMovement(int* pQueue, Elevator* pElevator);
  * 
  * @param pElevator Pointer to elevator.
 */
-void elevatorExecuteOrder(int* pQueue, Elevator* pElevator);
+static void elevatorExecuteOrder(int* pQueue, Elevator* pElevator);
 
 /**
  * @brief Routine that checks if the elevator stops below the floor it was at.
  * 
  * @param pElevator Pointer to elevator.
 */
-void elevatorCheckBelow(Elevator* pElevator);
+static void elevatorCheckBelow(Elevator* pElevator);
 
 /**
  * @brief The main loop that controls the elevator, polling everything.

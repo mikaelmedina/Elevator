@@ -1,6 +1,6 @@
 #include "elevatorControl.h"
 
-int elevatorPollFloor(void) {
+static int elevatorPollFloor(void) {
     for(int floor = 0; floor < HARDWARE_NUMBER_OF_FLOORS; floor++) {
         if(hardware_read_floor_sensor(floor)) {
             return floor;
@@ -56,14 +56,14 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
     }
 }
 
-int elevatorArrivedAtFloor(int floor) {
+static int elevatorArrivedAtFloor(int floor) {
     if(hardware_read_floor_sensor(floor)) {
         return 1;
     }
     return 0;
 }
 
-void elevatorMovement(int* pQueue, Elevator* pElevator) {
+static void elevatorMovement(int* pQueue, Elevator* pElevator) {
     if(pElevator->state != ELEVATOR_STOPPED && *pQueue != NO_FLOOR) {
         if(pElevator->nextFloor <= pElevator->currentFloor && (pElevator->stoppedBelow != 1 || *pQueue < pElevator->currentFloor)) {
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
@@ -80,14 +80,14 @@ void elevatorMovement(int* pQueue, Elevator* pElevator) {
     }
 }
 
-void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
+static void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
     if((pElevator->state == ELEVATOR_STANDBY && *pQueue > NO_FLOOR) || (pElevator->state == ELEVATOR_STOPPED && *pQueue > NO_FLOOR)) {
         pElevator->nextFloor = *pQueue;
         pElevator->state = ELEVATOR_STANDBY;
     }
 }
 
-void elevatorCheckBelow(Elevator* pElevator) {
+static void elevatorCheckBelow(Elevator* pElevator) {
     static int floor = NO_FLOOR;
     floor = elevatorPollFloor();
     if(floor != NO_FLOOR) {
