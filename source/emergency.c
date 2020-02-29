@@ -22,6 +22,9 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
                 if(emergencyPollObstruction()) {
                     timer = timerStartTimer(3000);
                 }
+                orderPoll(pQueue, pElevator);
+                orderClear(pElevator->currentFloor, pQueue, pElevator);
+                emergencyPollStop(pQueue, pElevator);
             }
             
         }
