@@ -33,7 +33,7 @@ void orderPoll(int *pQueue, Elevator *pElevator);
 void orderAdd(int floor, HardwareOrder orderType, int *pQueue, Elevator *pElevator);
 
 /**
- * @brief Clears all orders at given @p floor.
+ * @brief Clears all orders at given @p floor .
  * 
  * @param floor The floor to be cleared of orders.
  * 
@@ -53,7 +53,7 @@ void orderClear(int floor, int *pQueue, Elevator *pElevator);
 void orderClearAll(int *pQueue, Elevator *pElevator);
 
 /**
- * @brief Is used in orderAdd to update the queue.
+ * @brief Updates the queue with new orders, if there are any.
  * 
  * @param pQueue Pointer to queue.
  * 
@@ -62,7 +62,7 @@ void orderClearAll(int *pQueue, Elevator *pElevator);
 void orderAddToQueue(int *pQueue, Elevator *pElevator);
 
 /**
- * @brief Removes the finished queue order and leftshifts once. Used in orderClear.
+ * @brief Removes the finished queue order and leftshifts once.
  * 
  * @param pQueue Pointer to queue.
  * 

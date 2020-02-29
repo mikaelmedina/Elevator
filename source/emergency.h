@@ -14,14 +14,19 @@
  * @brief Polls the stop button, sets stop light active and stops
  *  the elevator if button is pressed. Also removes all orders and 
  *  opens the door if at a floor.
+ * 
+ * @param pQueue Pointer to queue.
+ * 
+ * @param pElevator Pointer to elevator.
+ * 
  * @return 0 if button was not pressed, 1 if the button was pressed, 2 if the
  * button was pressed at a floor.
  */
 int emergencyPollStop(int* pQueue, Elevator* pElevator);
 
 /**
- * @brief Polls the obstruction switch, if there is an obstruction
- * turns on the stoplight.
+ * @brief Polls the obstruction switch.
+ * 
  * @return 1 if there was an obstruction, 0 otherwise.
 */
 int emergencyPollObstruction(void);

@@ -15,7 +15,7 @@
 
 typedef struct {
     clock_t timerStart; /** The time when timer started */
-    clock_t timerDuration; /** How long after @param timerStart timer should stop */
+    clock_t timerDuration; /** When the timer should stop */
 } Timer;
 
 
@@ -24,6 +24,8 @@ typedef struct {
  * and time when timer should end.
  * 
  * @param milliSec how many milliseconds to count
+ * 
+ * @return Timer struct.
 */
 Timer timerStartTimer(int milliSec);
 
