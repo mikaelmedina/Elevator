@@ -9,11 +9,17 @@ static int elevatorArrivedAtFloor(int floor) {
 
 static void elevatorMovement(int* pQueue, Elevator* pElevator) {
     if(pElevator->state != ELEVATOR_STOPPED && *pQueue != NO_FLOOR) {
-        if(pElevator->nextFloor <= pElevator->currentFloor && (pElevator->stoppedBelow != 1 || *pQueue < pElevator->currentFloor)) {
+        if(pElevator->nextFloor <= pElevator->currentFloor && (*pQueue < pElevator->currentFloor || pElevator->lastFloorState != ELEVATOR_GOING_DOWN)) {
+            if(elevatorPollFloor() != NO_FLOOR) {
+                pElevator->lastFloorState = ELEVATOR_GOING_DOWN;
+            }
             hardware_command_movement(HARDWARE_MOVEMENT_DOWN);
             pElevator->state = ELEVATOR_GOING_DOWN;
         }
         else if(pElevator->nextFloor >= pElevator->currentFloor) {
+            if(elevatorPollFloor() != NO_FLOOR) {
+                pElevator->lastFloorState = ELEVATOR_GOING_UP;
+            }
             hardware_command_movement(HARDWARE_MOVEMENT_UP);
             pElevator->state = ELEVATOR_GOING_UP;
         } 
@@ -31,14 +37,11 @@ static void elevatorExecuteOrder(int* pQueue, Elevator* pElevator) {
     }
 }
 
-static void elevatorCheckBelow(Elevator* pElevator) {
+static void elevatorPassFloor(Elevator* pElevator) {
     static int floor = NO_FLOOR;
     floor = elevatorPollFloor();
     if(floor != NO_FLOOR) {
         pElevator->currentFloor = floor;
-        pElevator->stoppedBelow = 0;
-    } else if(pElevator->nextFloor <= pElevator->currentFloor && pElevator->state == ELEVATOR_STANDBY && pElevator->stoppedBelow != 1) {
-        pElevator->stoppedBelow = 1;
     }
 }
 
@@ -70,7 +73,6 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator) {
         }
         default: {
             pElevator->currentFloor = floor;
-            pElevator->stoppedBelow = 0;
             hardware_command_movement(HARDWARE_MOVEMENT_STOP);
             hardware_command_floor_indicator_on(floor);
             orderClear(floor, pQueue, pElevator);
@@ -104,7 +106,7 @@ void elevatorMainLoop(int* pQueue, Elevator* pElevator) {
     elevatorExecuteOrder(pQueue, pElevator);
     elevatorMovement(pQueue, pElevator);
     emergencyPollStop(pQueue, pElevator);
-    elevatorCheckBelow(pElevator);
+    elevatorPassFloor(pElevator);
     
     if(elevatorArrivedAtFloor(pElevator->nextFloor)) {
         elevatorArrival(pElevator->nextFloor, pQueue, pElevator);

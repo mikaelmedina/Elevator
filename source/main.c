@@ -34,6 +34,7 @@ int main(){
 
     elevator.currentFloor = elevator.nextFloor = startFloor;
     elevator.state = ELEVATOR_STANDBY;
+    elevator.lastFloorState = ELEVATOR_STANDBY;
 
     while(1){
         elevatorMainLoop(floorQueue, &elevator);

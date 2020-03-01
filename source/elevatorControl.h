@@ -24,8 +24,8 @@ typedef enum {
 typedef struct Elevator{
     int currentFloor; /**The last floor the elevator stopped at/passed.*/
     int nextFloor; /**The next floor the elevator is going to.*/
-    int stoppedBelow; /**Whether the elevator stopped below the current floor or not.*/
     ElevatorState state; /**The current state of the elevator.*/
+    ElevatorState lastFloorState; /**State elevator entered last time it left/passed a floor.*/
 } Elevator;
 
 #include "emergency.h"
