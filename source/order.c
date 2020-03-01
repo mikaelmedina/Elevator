@@ -3,6 +3,22 @@ int ordersInside[HARDWARE_NUMBER_OF_FLOORS];
 int ordersDown[HARDWARE_NUMBER_OF_FLOORS];
 int ordersUp[HARDWARE_NUMBER_OF_FLOORS];
 
+static void orderShiftQueue(int *pQueue, Elevator *pElevator) {
+    if (*pQueue == pElevator->currentFloor) {
+        *pQueue = *(pQueue+1);
+        *(pQueue+1) = *(pQueue+2);
+        *(pQueue+2) = *(pQueue+3);
+        *(pQueue+3) = NO_FLOOR;
+    }
+}
+
+static void orderShitfQueueBack(int *pQueue, Elevator *pElevator) {
+    *(pQueue+3) = *(pQueue+2);
+    *(pQueue+2) = *(pQueue+1);
+    *(pQueue+1) = *(pQueue);
+    *pQueue = NO_FLOOR;
+}
+
 void orderPoll(int *pQueue, Elevator *pElevator) {
     for(int f = 0; f < HARDWARE_NUMBER_OF_FLOORS; f++){
         if(hardware_read_order(f, HARDWARE_ORDER_INSIDE)){
@@ -125,18 +141,3 @@ void orderAddToQueue(int *pQueue, Elevator *pElevator) {
     }
 }
 
-static void orderShiftQueue(int *pQueue, Elevator *pElevator) {
-    if (*pQueue == pElevator->currentFloor) {
-        *pQueue = *(pQueue+1);
-        *(pQueue+1) = *(pQueue+2);
-        *(pQueue+2) = *(pQueue+3);
-        *(pQueue+3) = NO_FLOOR;
-    }
-}
-
-static void orderShitfQueueBack(int *pQueue, Elevator *pElevator) {
-    *(pQueue+3) = *(pQueue+2);
-    *(pQueue+2) = *(pQueue+1);
-    *(pQueue+1) = *(pQueue);
-    *pQueue = NO_FLOOR;
-}

@@ -61,8 +61,4 @@ void orderClearAll(int *pQueue, Elevator *pElevator);
  */
 void orderAddToQueue(int *pQueue, Elevator *pElevator);
 
-static void orderShiftQueue(int *pQueue, Elevator *pElevator);
-
-static void orderShitfQueueBack(int *pQueue, Elevator *pElevator);
-
 #endif
