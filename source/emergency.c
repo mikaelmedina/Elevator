@@ -11,6 +11,7 @@ int emergencyPollStop(int* pQueue, Elevator* pElevator) {
         while(hardware_read_stop_signal()) {
             if(elevatorPollFloor() != NO_FLOOR) {
                 doorOpen();
+                hardware_command_floor_indicator_on(elevatorPollFloor());
                 returnValue = 2;
             }
         }
