@@ -14,8 +14,8 @@
  */
 
 typedef struct {
-    clock_t timerStart; /** The time when timer started */
-    clock_t timerDuration; /** When the timer should stop */
+    clock_t timerStart;     /**< The time when timer started. */
+    clock_t timerDuration;  /**< When the timer should stop. */
 } Timer;
 
 
@@ -23,7 +23,7 @@ typedef struct {
  * @brief Creates a timer struct which holds time when timer started, 
  * and time when timer should end.
  * 
- * @param milliSec how many milliseconds to count
+ * @param milliSec How many milliseconds to count.
  * 
  * @return Timer struct.
 */

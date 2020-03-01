@@ -22,10 +22,10 @@ typedef enum {
  * @brief Struct that holds information about an elevator.
 */
 typedef struct Elevator{
-    int currentFloor; /**The last floor the elevator stopped at/passed.*/
-    int nextFloor; /**The next floor the elevator is going to.*/
-    ElevatorState state; /**The current state of the elevator.*/
-    ElevatorState lastFloorState; /**State elevator entered last time it left/passed a floor.*/
+    int currentFloor;               /**< The last floor the elevator stopped at/passed.*/
+    int nextFloor;                  /**< The next floor the elevator is going to.*/
+    ElevatorState state;            /**< The current state of the elevator.*/
+    ElevatorState lastFloorState;   /**< State elevator entered last time it left/passed a floor.*/
 } Elevator;
 
 #include "emergency.h"
@@ -61,8 +61,8 @@ void elevatorArrival(int floor, int* pQueue, Elevator* pElevator);
 /**
  * @brief The main loop that controls the elevator, polling everything.
  * 
- * @param pQueue pointer to queue.
- * @param pElevator pointer to elevator struct with info about the elevator.
+ * @param pQueue Pointer to queue.
+ * @param pElevator Pointer to elevator struct with info about the elevator.
 */
 void elevatorMainLoop(int* pQueue, Elevator* pElevator);
 
